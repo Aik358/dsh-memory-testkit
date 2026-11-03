@@ -49,6 +49,21 @@ node suites/families.mjs --cc 2  # 先建立基线（不改任何提示词）
 node lib/server.mjs              # 监控台 http://127.0.0.1:8899
 ```
 
+## 先跑接线审计（零成本，不调模型）
+
+在花钱跑实验之前，先确认「你要改的那个键，产品真的读它吗」：
+
+```bash
+node suites/wiring-audit.mjs            # ~0.4 秒，不需要端点和沙箱
+node suites/wiring-audit.mjs --strict   # 有 warn 即非零退出（可进 CI）
+```
+
+它查五类「改了完全无效」的形态：后端死键 / 前端死开关 / 两端键镜像漂移 /
+路由缺失 / try 块作用域越界。**这是本仓历史上最常见的缺陷形态**，
+而它们都能通过 `node --check` 与静态断言 —— 只能靠这种审计发现。
+
+详见 [docs/WIRING-AUDIT.md](docs/WIRING-AUDIT.md)（含「warn 不等于缺陷」的判读纪律）。
+
 ## 做一次提示词实验
 
 ```bash
