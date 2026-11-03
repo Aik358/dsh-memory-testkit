@@ -99,12 +99,29 @@ node experiments/run.mjs <name>             # 再跑
 | 对抗 ablation | `node suites/ablation.mjs` | 指令 vs 工具回执，谁更有权威 |
 | **隐性触发** | `node suites/implicit.mjs` | **不给任何工具名提示，看模型会不会自己想起要写** |
 
+### 外部基准校准（新增）
+
+本套件的判据是自己设计的 —— 最大的盲区是「只测到了我们想到的东西」。
+外部基准补这个：它们的考点从真实使用归纳，且带结构化判据。
+
+| 基准 | 我们原本覆盖 | 跑法 |
+|---|---|---|
+| [Ornn8](https://github.com/Ornn8/memory-system-benchmark)（27 考点） | **7 / 27** | `node suites/external.mjs --bench ornn8 --only-missing` |
+| [LongMemEval](https://github.com/xiaowu0162/LongMemEval)（7 类） | **2 / 7** | `node suites/external.mjs --bench lme --only abstention,knowledge-update` |
+
+数据不随仓库分发（许可/体积/版本漂移）。准备方式与全部边界见
+[docs/EXTERNAL-BENCHMARKS.md](docs/EXTERNAL-BENCHMARKS.md)。
+
+⚠️ 三条硬边界：只接**公开示例**（正式卷不公开）、用**单轮**接法（不是官方的回放口径）、
+用**规则判分**（官方是 GPT-4o 裁判）⇒ **不能宣称与官方榜可比**。
+
 ### 诊断工具
 
 | 命令 | 用途 |
 |---|---|
 | `node lib/selftest.mjs` | 判分器 + 环境层 + **自变量完整性**（39 项，改判分逻辑前后必跑） |
 | `node setup/verify-overrides.mjs` | **改了提示词层后必跑**：证明覆盖真的进了模型上下文（3 个用例） |
+| `node setup/verify-external-judges.mjs` | 外部判据离线自检（18 项，不花额度） |
 | `node lib/lint.mjs` | 产品契约漂移检查 |
 | `node lib/corpus-real.mjs` | 扫真实会话，统计各类记忆写入的实际频率 |
 | `node lib/fill-rate.mjs` | 按事件统计各记忆面的结构化填充率 |
@@ -131,7 +148,7 @@ node experiments/run.mjs <name>             # 再跑
 
 ## 已验证
 
-- 套件自检 **39/39 通过**（环境层 + 判分层 + 自变量完整性；关键守卫做过**变异测试**）
+- 套件自检 **52/52 通过**（环境层 + 判分层 + 自变量完整性；关键守卫做过**变异测试**）
 - 产品契约漂移检查 **无漂移**
 - 入口自适应：桌面版（`.cmd` → exe + asar 内 cli.js）与 npm 版（`node bin.js`）**都能跑通**
 - **提示词覆盖链验证**：6 层同时覆盖 → 标记全部进入模型上下文；变体之间不残留
