@@ -1,0 +1,27 @@
+{
+  "_comment": [
+    "复制本文件为 testkit.config.json 后填写你自己的模型端点。",
+    "testkit.config.json 已 gitignore，不会进仓库 —— 可以在里面写私有域名。",
+    "",
+    "provider 段是唯一的必填段。任何 OpenAI 兼容端点都能用：",
+    "  · 官方 DeepSeek   api=openai-chat      baseURL=https://api.deepseek.com/v1",
+    "  · 自建/中转       按对方给的协议填     baseURL 填「根」，不要带 /chat/completions",
+    "  · Anthropic       api=anthropic",
+    "",
+    "apiKeyEnv 是这个端点用哪个环境变量名读 key（不把 key 写进本文件）。",
+    "也可以完全不用本文件，改用环境变量：",
+    "  TESTKIT_PROVIDER_NAME / _API / _BASE_URL / _MODEL / _API_KEY_ENV 等"
+  ],
+  "provider": {
+    "name": "main",
+    "api": "openai-chat",
+    "baseURL": "",
+    "apiKeyEnv": "DSH_MODEL_API_KEY",
+    "model": "deepseek-chat",
+    "displayName": "deepseek-chat",
+    "reasoningEffort": "medium",
+    "contextWindow": 128000,
+    "maxTokens": 8192,
+    "vision": false
+  }
+}

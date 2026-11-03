@@ -1,0 +1,18 @@
+{
+  "name": "dsh-memory-testkit",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "DSH 记忆插件遵循能力测试套件 —— 隔离沙箱 + 完整性哨兵 + 按面判分 + 实时监控",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "check": "node setup/preflight.mjs",
+    "serve": "node lib/server.mjs",
+    "selftest": "node lib/selftest.mjs",
+    "lint": "node lib/lint.mjs",
+    "setup": "node lib/setup-ui.mjs",
+    "env": "node setup/env-report.mjs"
+  }
+}

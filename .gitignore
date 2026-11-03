@@ -1,0 +1,25 @@
+# 本机私有配置（含自建端点/中转站域名、本机路径）—— 不进仓库
+testkit.config.json
+
+
+# 实验产物与运行态
+node_modules/
+run/
+
+# 环境变量与凭证
+.env
+.env.*
+.credentials*
+
+# 编辑器
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# 临时诊断脚本
+.tmp-*
+*.log
+
+# 编辑器备份
+.editor-backups/
